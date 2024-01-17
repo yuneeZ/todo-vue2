@@ -24,32 +24,22 @@ export default {
 </script>
 
 <style>
-#app {
+body {
+  margin: 0;
+  background: #f6f6f8;
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 
-h1,
-h2 {
-  font-weight: normal;
+input,
+button {
+  border-style: groove;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-
-li {
-  display: inline-block;
-  margin: 0;
-  padding: 0;
-}
-
-a {
-  color: #42b983;
+.shadow {
+  box-shadow: 5px 10px 10px rgba(0, 0, 0, 0.03);
 }
 </style>
