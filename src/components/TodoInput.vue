@@ -1,7 +1,15 @@
 <template>
-  <div>
-    <input type="text" v-model="newTodoItem" />
-    <button type="button" v-on:click="addTodo">추가</button>
+  <div class="inputBox">
+    <input
+      type="text"
+      v-model="newTodoItem"
+      placeholder="Type what you have to do"
+      v-on:keyup.enter="addTodo"
+    />
+    <button type="button" v-on:click="addTodo" class="btnAdd">
+      <span class="btnAddIcon fas fa-plus"></span>
+      <span class="blind">추가</span>
+    </button>
   </div>
 </template>
 
@@ -27,4 +35,24 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.inputBox {
+  display: flex;
+}
+.inputBox input {
+  height: 40px;
+  padding: 0 10px;
+  background: #fff;
+  border-radius: 5px 0 0 5px;
+  flex: 1;
+}
+.btnAdd {
+  width: 40px;
+  height: 40px;
+  border-radius: 0 5px 5px 0;
+  background: #8763fb;
+}
+.btnAddIcon {
+  color: #fff;
+}
+</style>
