@@ -13,7 +13,7 @@
         @click="removeTodo(todoItem, index)"
       >
         <span class="blind">삭제</span>
-        <span class="far fa-trash-alt"></span>
+        <span class="iconDelete far fa-trash-alt"></span>
       </button>
     </li>
   </ul>
