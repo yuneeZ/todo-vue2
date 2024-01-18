@@ -1,10 +1,8 @@
 <template>
   <ul class="todoContainer">
-    <li
-      v-for="(todoItem, index) in todoItems"
-      :key="todoItem.key"
-      class="todoList"
-    >
+    <!-- <li v-for="(todoItem, index) in todoItems" class="todoList"> -->
+    <!-- App 컴포넌트의 TodoItems 데이터 개수만큼 반복되도록 목록 아이템 생성 -->
+    <li v-for="(todoItem, index) in propsData" class="todoList">
       <span class="iconCheck fas fa-check"></span>
       <span class="todoItem">{{ todoItem }}</span>
       <button
@@ -21,24 +19,26 @@
 
 <script>
 export default {
-  data() {
-    return {
-      todoItems: [],
-    };
-  },
-  created() {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        this.todoItems.push(localStorage.key(i));
-      }
-    }
-  },
+  props: ["propsData"],
   methods: {
     removeTodo(todoItem, index) {
       localStorage.removeItem(todoItem);
       this.todoItems.splice(index, 1);
     },
   },
+  // App 컴포넌트에서 관리
+  // data() {
+  //   return {
+  //     todoItems: [],
+  //   };
+  // },
+  // created() {
+  //   if (localStorage.length > 0) {
+  //     for (var i = 0; i < localStorage.length; i++) {
+  //       this.todoItems.push(localStorage.key(i));
+  //     }
+  //   }
+  // },
 };
 </script>
 
