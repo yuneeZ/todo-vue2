@@ -3,7 +3,7 @@
     <TodoHeader></TodoHeader>
     <TodoInput v-on:addTodo="addTodo"></TodoInput>
     <TodoList v-bind:propsData="todoItems"></TodoList>
-    <TodoFooter></TodoFooter>
+    <TodoFooter v-on:clearAllTodo="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -32,6 +32,11 @@ export default {
       // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 데이터 추가
       localStorage.setItem(todoItem, todoItem);
       this.todoItems.push(todoItem);
+    },
+    clearAll() {
+      // 스토리지 데이터 제거
+      localStorage.clear();
+      this.todoItems = [];
     },
   },
   components: {

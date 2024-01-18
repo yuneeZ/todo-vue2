@@ -10,7 +10,9 @@
 export default {
   methods: {
     clearAllTodo() {
-      localStorage.clear();
+      // 이벤트 전달
+      // localStorage.clear();
+      this.$emit("clearAllTodo");
     },
   },
 };
