@@ -22,8 +22,10 @@ export default {
   props: ["propsData"],
   methods: {
     removeTodo(todoItem, index) {
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
+      this.$emit("removeTodo", todoItem, index);
+      // App 컴포넌트에서 관리
+      // localStorage.removeItem(todoItem);
+      // this.todoItems.splice(index, 1);
     },
   },
   // App 컴포넌트에서 관리

@@ -13,6 +13,7 @@ export default {
       // 이벤트 전달
       // localStorage.clear();
       this.$emit("clearAllTodo");
+      console.log("a");
     },
   },
 };
