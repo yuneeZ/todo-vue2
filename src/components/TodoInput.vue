@@ -10,14 +10,26 @@
       <span class="btnAddIcon fas fa-plus"></span>
       <span class="blind">추가</span>
     </button>
+    <modal v-if="showModal" @close="showModal = false">
+      <h3 slot="header">알림</h3>
+      <p slot="footer" @click="showModal = false">
+        할 일을 입력하세요.
+        <button type="button" class="btnClose">
+          <span class="fas fa-times"></span>
+        </button>
+      </p>
+    </modal>
   </div>
 </template>
 
 <script>
+import Modal from "./common/Modal";
+
 export default {
   data() {
     return {
       newTodoItem: "",
+      showModal: false,
     };
   },
   methods: {
@@ -28,11 +40,16 @@ export default {
         // localStorage.setItem(value, value);
         this.$emit("addTodo", value);
         this.clearInput();
+      } else {
+        this.showModal = !this.showModal;
       }
     },
     clearInput() {
       this.newTodoItem = "";
     },
+  },
+  components: {
+    Modal: Modal,
   },
 };
 </script>

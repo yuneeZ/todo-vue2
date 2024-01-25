@@ -1,10 +1,10 @@
 <template>
-  <ul class="todoContainer">
+  <transition-group name="list" tag="ul">
     <!-- <li v-for="(todoItem, index) in todoItems" class="todoList"> -->
     <!-- App 컴포넌트의 TodoItems 데이터 개수만큼 반복되도록 목록 아이템 생성 -->
-    <li v-for="(todoItem, index) in propsData" class="todoList">
+    <li v-for="(todoItem, index) in propsData" :key="todoItem" class="todoList">
       <span class="iconCheck fas fa-check"></span>
-      <span class="todoItem">{{ todoItem }}</span>
+      <span>{{ todoItem }}</span>
       <button
         type="button"
         class="btnDelete"
@@ -14,7 +14,7 @@
         <span class="iconDelete far fa-trash-alt"></span>
       </button>
     </li>
-  </ul>
+  </transition-group>
 </template>
 
 <script>
@@ -64,5 +64,14 @@ export default {
   height: 40px;
   margin-left: auto;
   background: none;
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.3s;
+}
+.list-enter,
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
 }
 </style>
