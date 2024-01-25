@@ -2,7 +2,7 @@
   <transition-group name="list" tag="ul">
     <!-- <li v-for="(todoItem, index) in todoItems" class="todoList"> -->
     <!-- App 컴포넌트의 TodoItems 데이터 개수만큼 반복되도록 목록 아이템 생성 -->
-    <li v-for="(todoItem, index) in propsData" :key="todoItem" class="todoList">
+    <li v-for="(todoItem, index) in propsData" :key="index" class="todoList">
       <span class="iconCheck fas fa-check"></span>
       <span>{{ todoItem }}</span>
       <button
