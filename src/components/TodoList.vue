@@ -1,14 +1,16 @@
 <template>
   <transition-group name="list" tag="ul">
-    <!-- <li v-for="(todoItem, index) in todoItems" class="todoList"> -->
-    <!-- App 컴포넌트의 TodoItems 데이터 개수만큼 반복되도록 목록 아이템 생성 -->
-    <li v-for="(todoItem, index) in propsData" :key="index" class="todoList">
+    <li
+      v-for="(todoItem, index) in propsData"
+      v-bind:key="index"
+      class="todoList"
+    >
       <span class="iconCheck fas fa-check"></span>
       <span>{{ todoItem }}</span>
       <button
         type="button"
         class="btnDelete"
-        @click="removeTodo(todoItem, index)"
+        v-on:click="clearItem(todoItem, index)"
       >
         <span class="blind">삭제</span>
         <span class="iconDelete far fa-trash-alt"></span>
@@ -21,14 +23,14 @@
 export default {
   props: ["propsData"],
   methods: {
-    removeTodo(todoItem, index) {
-      this.$emit("removeTodo", todoItem, index);
-      // App 컴포넌트에서 관리
+    clearItem(todoItem, index) {
+      // App으로 이벤트 전달
       // localStorage.removeItem(todoItem);
       // this.todoItems.splice(index, 1);
+      this.$emit("clearItem", todoItem, index);
     },
   },
-  // App 컴포넌트에서 관리
+  // App에서 리스트 관리
   // data() {
   //   return {
   //     todoItems: [],

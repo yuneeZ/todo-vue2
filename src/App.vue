@@ -2,8 +2,11 @@
   <div id="app">
     <TodoHeader></TodoHeader>
     <TodoInput v-on:addTodo="addTodo"></TodoInput>
-    <TodoList v-bind:propsData="todoItems" @removeTodo="removeTodo"></TodoList>
-    <TodoFooter v-on:clearAllTodo="clearAll"></TodoFooter>
+    <TodoList
+      v-bind:propsData="todoItems"
+      v-on:clearItem="clearItem"
+    ></TodoList>
+    <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -14,10 +17,34 @@ import TodoInput from "./components/TodoInput.vue";
 import TodoList from "./components/TodoList.vue";
 
 export default {
+  components: {
+    TodoHeader: TodoHeader,
+    TodoInput: TodoInput,
+    TodoList: TodoList,
+    TodoFooter: TodoFooter,
+  },
   data() {
     return {
       todoItems: [],
     };
+  },
+  methods: {
+    // todo 아이템 추가 - TodoInput 컴포넌트에서 보낸 이벤트
+    addTodo(todoItem) {
+      // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 추가
+      localStorage.setItem(todoItem, todoItem);
+      this.todoItems.push(todoItem);
+    },
+    // todo 아이템 삭제 - TodoList 컴포넌트에서 보낸 이벤트
+    clearItem(todoItem, index) {
+      localStorage.removeItem(todoItem);
+      this.todoItems.splice(index, 1);
+    },
+    // todo 아이템 전체 삭제 - TodoFooter 컴포넌트에서 보낸 이벤트
+    clearAll() {
+      localStorage.clear();
+      this.todoItems = [];
+    },
   },
   created() {
     if (localStorage.length > 0) {
@@ -25,29 +52,6 @@ export default {
         this.todoItems.push(localStorage.key(i));
       }
     }
-  },
-  methods: {
-    // TodoInput 컴포넌트에서 보낸 이벤트
-    addTodo(todoItem) {
-      // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 데이터 추가
-      localStorage.setItem(todoItem, todoItem);
-      this.todoItems.push(todoItem);
-    },
-    clearAll() {
-      // 스토리지 데이터 제거
-      localStorage.clear();
-      this.todoItems = [];
-    },
-    removeTodo(todoItem, index) {
-      localStorage.removeItem(todoItem);
-      this.todoItems.splice(index, 1);
-    },
-  },
-  components: {
-    TodoHeader: TodoHeader,
-    TodoInput: TodoInput,
-    TodoList: TodoList,
-    TodoFooter: TodoFooter,
   },
 };
 </script>

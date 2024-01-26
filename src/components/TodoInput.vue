@@ -1,23 +1,26 @@
 <template>
-  <div class="inputBox">
-    <input
-      type="text"
-      v-model="newTodoItem"
-      placeholder="Type what you have to do"
-      v-on:keyup.enter="addTodo"
-    />
-    <button type="button" v-on:click="addTodo" class="btnAdd">
-      <span class="btnAddIcon fas fa-plus"></span>
-      <span class="blind">추가</span>
-    </button>
-    <modal v-if="showModal" @close="showModal = false">
+  <div>
+    <div class="inputBox">
+      <input
+        type="text"
+        placeholder="Type what you have to do"
+        v-model="newTodoItem"
+        v-on:keydown.enter="addTodo"
+      />
+      <button type="button" class="btnAdd" v-on:click="addTodo">
+        <span class="btnAddIcon fas fa-plus"></span>
+        <span class="blind">추가</span>
+      </button>
+    </div>
+    <modal v-if="showModal" v-on:close="showModal = false">
       <h3 slot="header">알림</h3>
-      <p slot="footer" @click="showModal = false">
-        할 일을 입력하세요.
-        <button type="button" class="btnClose">
+      <div slot="body">
+        <p>할 일을 입력해주세요</p>
+        <button type="button" v-on:click="showModal = false">
+          <span class="blind">닫기</span>
           <span class="fas fa-times"></span>
         </button>
-      </p>
+      </div>
     </modal>
   </div>
 </template>
@@ -35,22 +38,22 @@ export default {
   methods: {
     addTodo() {
       if (this.newTodoItem.trim() !== "") {
-        // 텍스트의 앞 뒤 공백 문자열 제거
+        // 텍스트 앞 뒤 공백 문자열 제거
         var value = this.newTodoItem && this.newTodoItem.trim();
-        // TodoInput에선 이벤트만 전달
+        // App으로 이벤트 전달
         // localStorage.setItem(value, value);
         this.$emit("addTodo", value);
-        this.clearInput();
       } else {
         this.showModal = !this.showModal;
       }
+      this.clearInput();
     },
     clearInput() {
       this.newTodoItem = "";
     },
   },
   components: {
-    Modal: Modal,
+    modal: Modal,
   },
 };
 </script>

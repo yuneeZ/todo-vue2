@@ -1,6 +1,6 @@
 <template>
   <div class="btnBox">
-    <button type="button" class="btnDeleteAll" @click="clearAllTodo">
+    <button type="button" class="btnDeleteAll" v-on:click="clearAll">
       Clear All
     </button>
   </div>
@@ -9,11 +9,10 @@
 <script>
 export default {
   methods: {
-    clearAllTodo() {
-      // 이벤트 전달
+    clearAll() {
+      // App으로 이벤트 전달
       // localStorage.clear();
-      this.$emit("clearAllTodo");
-      console.log("a");
+      this.$emit("clearAll");
     },
   },
 };
