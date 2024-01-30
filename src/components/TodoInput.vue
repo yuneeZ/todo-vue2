@@ -36,18 +36,6 @@ export default {
     };
   },
   methods: {
-    // addTodo() {
-    //   if (this.newTodoItem.trim() !== "") {
-    //     // 텍스트 앞 뒤 공백 문자열 제거
-    //     var value = this.newTodoItem && this.newTodoItem.trim();
-    //     // App으로 이벤트 전달
-    //     // localStorage.setItem(value, value);
-    //     this.$emit("addTodo", value);
-    //   } else {
-    //     this.showModal = !this.showModal;
-    //   }
-    //   this.clearInput();
-    // },
     addTodo() {
       const trimmedValue = this.newTodoItem.trim();
       if (trimmedValue) {

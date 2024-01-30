@@ -24,25 +24,9 @@ export default {
   props: ["propsData"],
   methods: {
     clearItem(todoItem, index) {
-      // App으로 이벤트 전달
-      // localStorage.removeItem(todoItem);
-      // this.todoItems.splice(index, 1);
       this.$emit("clearItem", todoItem, index);
     },
   },
-  // App에서 리스트 관리
-  // data() {
-  //   return {
-  //     todoItems: [],
-  //   };
-  // },
-  // created() {
-  //   if (localStorage.length > 0) {
-  //     for (var i = 0; i < localStorage.length; i++) {
-  //       this.todoItems.push(localStorage.key(i));
-  //     }
-  //   }
-  // },
 };
 </script>
 
