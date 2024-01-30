@@ -2,7 +2,7 @@
   <transition-group name="list" tag="ul">
     <li
       v-for="(todoItem, index) in propsData"
-      v-bind:key="index"
+      v-bind:key="todoItem"
       class="todoList"
     >
       <span class="iconCheck fas fa-check"></span>
