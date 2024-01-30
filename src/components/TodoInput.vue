@@ -16,9 +16,8 @@
       <h3 slot="header">알림</h3>
       <div slot="body">
         <p>할 일을 입력해주세요</p>
-        <button type="button" v-on:click="showModal = false">
+        <button type="button" v-on:click="showModal = false" class="btnClose">
           <span class="blind">닫기</span>
-          <span class="fas fa-times"></span>
         </button>
       </div>
     </modal>
