@@ -4,19 +4,25 @@
       <input
         type="text"
         placeholder="Type what you have to do"
+        ref="todoInput"
         v-model="newTodoItem"
-        v-on:keydown.enter="addTodo"
+        v-on:keyup.enter="addTodo"
       />
       <button type="button" class="btnAdd" v-on:click="addTodo">
         <span class="btnAddIcon fas fa-plus"></span>
         <span class="blind">추가</span>
       </button>
     </div>
-    <modal v-if="showModal" v-on:close="showModal = false">
+    <modal v-if="showModal" v-on:close="handleCloseModal">
       <h3 slot="header">알림</h3>
       <div slot="body">
         <p>할 일을 입력해주세요</p>
-        <button type="button" v-on:click="showModal = false" class="btnClose">
+        <button
+          type="button"
+          v-on:click="handleCloseModal"
+          ref="modalCloseButton"
+          class="btnClose"
+        >
           <span class="blind">닫기</span>
         </button>
       </div>
@@ -40,16 +46,32 @@ export default {
       if (trimmedValue) {
         this.$emit("addTodo", trimmedValue);
       } else {
-        this.showModal = true;
+        this.handleOpenModal();
       }
       this.clearInput();
     },
     clearInput() {
       this.newTodoItem = "";
     },
+    handleOpenModal() {
+      this.showModal = true;
+      this.$nextTick(() => {
+        this.$refs.modalCloseButton.focus();
+      });
+    },
+    handleCloseModal() {
+      this.showModal = false;
+      // TODO: 바로 닫히는거 해결
+      this.$nextTick(() => {
+        this.$refs.todoInput.focus();
+      });
+    },
   },
   components: {
     modal: Modal,
+  },
+  mounted() {
+    this.$refs.todoInput.focus();
   },
 };
 </script>
