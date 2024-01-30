@@ -75,4 +75,29 @@ export default {
 .btnAddIcon {
   color: #fff;
 }
+.btnClose {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+  background: none;
+}
+.btnClose:before,
+.btnClose:after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 2px;
+  height: 20px;
+  margin-top: -10px;
+  background: #000;
+  content: "";
+}
+.btnClose:before {
+  transform: rotate(45deg);
+}
+.btnClose:after {
+  transform: rotate(-45deg);
+}
 </style>
