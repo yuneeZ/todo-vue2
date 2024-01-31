@@ -26,31 +26,33 @@ export default {
   data() {
     return {
       todoItems: [],
+      getTodoItems: [],
     };
   },
   methods: {
     // todo 아이템 추가 - TodoInput 컴포넌트에서 보낸 이벤트
     addTodo(todoItem) {
-      // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 추가
-      localStorage.setItem(todoItem, todoItem);
       this.todoItems.push(todoItem);
+      // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 배열로 추가
+      localStorage.setItem("todoList", JSON.stringify(this.todoItems));
     },
     // todo 아이템 삭제 - TodoList 컴포넌트에서 보낸 이벤트
-    clearItem(todoItem, index) {
-      localStorage.removeItem(todoItem);
+    clearItem(index) {
       this.todoItems.splice(index, 1);
+      localStorage.setItem("todoList", JSON.stringify(this.todoItems));
     },
     // todo 아이템 전체 삭제 - TodoFooter 컴포넌트에서 보낸 이벤트
     clearAll() {
-      localStorage.clear();
+      localStorage.removeItem("todoList");
       this.todoItems = [];
     },
   },
   created() {
-    if (localStorage.length > 0) {
-      for (var i = 0; i < localStorage.length; i++) {
-        this.todoItems.push(localStorage.key(i));
-      }
+    const getTodoList = localStorage.getItem("todoList");
+    const getTodoItem = JSON.parse(getTodoList);
+
+    if (getTodoItem.length > 0) {
+      this.todoItems = getTodoItem;
     }
   },
 };

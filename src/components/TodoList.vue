@@ -2,16 +2,12 @@
   <transition-group name="list" tag="ul">
     <li
       v-for="(todoItem, index) in propsData"
-      v-bind:key="todoItem"
+      v-bind:key="index"
       class="todoList"
     >
       <span class="iconCheck fas fa-check"></span>
       <span>{{ todoItem }}</span>
-      <button
-        type="button"
-        class="btnDelete"
-        v-on:click="clearItem(todoItem, index)"
-      >
+      <button type="button" class="btnDelete" v-on:click="clearItem(index)">
         <span class="blind">삭제</span>
         <span class="iconDelete far fa-trash-alt"></span>
       </button>
