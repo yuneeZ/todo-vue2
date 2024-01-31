@@ -19,8 +19,9 @@
         <p>할 일을 입력해주세요</p>
         <button
           type="button"
-          v-on:click="handleCloseModal"
           ref="modalCloseButton"
+          v-on:blur="handleCloseModal"
+          v-on:keyup.enter="$event.target.blur()"
           class="btnClose"
         >
           <span class="blind">닫기</span>
@@ -46,6 +47,7 @@ export default {
       if (trimmedValue) {
         this.$emit("addTodo", trimmedValue);
       } else {
+        this.$refs.todoInput.blur();
         this.handleOpenModal();
       }
       this.clearInput();
@@ -61,7 +63,6 @@ export default {
     },
     handleCloseModal() {
       this.showModal = false;
-      // TODO: 바로 닫히는거 해결
       this.$nextTick(() => {
         this.$refs.todoInput.focus();
       });
