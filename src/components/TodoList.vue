@@ -5,8 +5,16 @@
       v-bind:key="index"
       class="todoList"
     >
-      <span class="iconCheck fas fa-check"></span>
-      <span>{{ todoItem }}</span>
+      <div class="checkBox">
+        <input
+          type="checkbox"
+          class="checkBoxInput"
+          v-bind:id="index"
+          v-bind:value="index"
+          v-model="checkedTodo"
+        />
+        <label class="checkBoxLabel" v-bind:for="index">{{ todoItem }}</label>
+      </div>
       <button type="button" class="btnDelete" v-on:click="clearItem(index)">
         <span class="blind">삭제</span>
         <span class="iconDelete far fa-trash-alt"></span>
@@ -18,6 +26,11 @@
 <script>
 export default {
   props: ["propsData"],
+  data() {
+    return {
+      checkedTodo: [],
+    };
+  },
   methods: {
     clearItem(todoItem, index) {
       this.$emit("clearItem", todoItem, index);
@@ -55,5 +68,55 @@ export default {
 .list-leave-to {
   opacity: 0;
   transform: translateY(-30px);
+}
+.checkBox {
+  position: relative;
+  flex: 1;
+}
+.checkBoxInput {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  opacity: 0;
+  transform: translateY(-50%);
+}
+.checkBoxLabel {
+  display: block;
+  padding-left: 28px;
+  line-height: 40px;
+  user-select: none;
+}
+.checkBoxLabel:before,
+.checkBoxLabel:after {
+  position: absolute;
+  box-sizing: border-box;
+  content: "";
+}
+.checkBoxLabel:before {
+  top: 50%;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  border: 1px solid #999;
+  border-radius: 4px;
+  transform: translateY(-50%);
+}
+.checkBoxLabel:after {
+  top: 9px;
+  left: 5px;
+  width: 10px;
+  height: 20px;
+  border: solid #999;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0.5);
+}
+.checkBoxInput:checked + .checkBoxLabel:before {
+  background: #8763fb;
+  border-color: #8763fb;
+}
+.checkBoxInput:checked + .checkBoxLabel:after {
+  border-color: #fff;
 }
 </style>
