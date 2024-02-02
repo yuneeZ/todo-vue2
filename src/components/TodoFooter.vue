@@ -16,7 +16,7 @@ export default {
       this.$emit("clearAll");
     },
     clearSelected() {
-      console.log("");
+      this.$emit("clearSelected");
     },
   },
 };

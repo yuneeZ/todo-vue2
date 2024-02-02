@@ -2,18 +2,20 @@
   <transition-group name="list" tag="ul">
     <li
       v-for="(todoItem, index) in propsData"
-      v-bind:key="index"
+      v-bind:key="todoItem.key"
       class="todoList"
     >
       <div class="checkBox">
         <input
           type="checkbox"
           class="checkBoxInput"
-          v-bind:id="index"
-          v-bind:value="index"
+          v-bind:id="todoItem.key"
+          v-bind:value="todoItem.key"
           v-model="checkedTodo"
         />
-        <label class="checkBoxLabel" v-bind:for="index">{{ todoItem }}</label>
+        <label class="checkBoxLabel" v-bind:for="todoItem.key">{{
+          todoItem.value
+        }}</label>
       </div>
       <button type="button" class="btnDelete" v-on:click="clearItem(index)">
         <span class="blind">삭제</span>
@@ -34,6 +36,17 @@ export default {
   methods: {
     clearItem(todoItem, index) {
       this.$emit("clearItem", todoItem, index);
+    },
+    selectedTodo() {
+      this.$emit("selectedTodo", this.checkedTodo);
+    },
+  },
+  watch: {
+    checkedTodo: {
+      handler() {
+        this.selectedTodo();
+      },
+      deep: true,
     },
   },
 };

@@ -5,8 +5,12 @@
     <TodoList
       v-bind:propsData="todoItems"
       v-on:clearItem="clearItem"
+      v-on:selectedTodo="selectedTodo"
     ></TodoList>
-    <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
+    <TodoFooter
+      v-on:clearAll="clearAll"
+      v-on:clearSelected="clearSelected"
+    ></TodoFooter>
   </div>
 </template>
 
@@ -26,13 +30,26 @@ export default {
   data() {
     return {
       todoItems: [],
-      getTodoItems: [],
+      selectedTodoItems: [],
     };
   },
   methods: {
     // todo 아이템 추가 - TodoInput 컴포넌트에서 보낸 이벤트
     addTodo(todoItem) {
-      this.todoItems.push(todoItem);
+      const date = new Date();
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, "0");
+      const day = date.getDate().toString().padStart(2, "0");
+      const hours = date.getHours().toString().padStart(2, "0");
+      const minutes = date.getMinutes().toString().padStart(2, "0");
+      const seconds = date.getSeconds().toString().padStart(2, "0");
+      const now = year + month + day + hours + minutes + seconds;
+
+      this.todoItems.push({
+        key: [this.todoItems.length, now].join("_"),
+        value: todoItem,
+      });
+
       // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 배열로 추가
       localStorage.setItem("todoList", JSON.stringify(this.todoItems));
     },
@@ -45,6 +62,28 @@ export default {
     clearAll() {
       localStorage.removeItem("todoList");
       this.todoItems = [];
+    },
+    // 선택된 todo 아이템 삭제
+    clearSelected(checkedTodo) {
+      // 선택한 데이터 todoItems에서 제거
+      const filterTodo = this.todoItems.filter(
+        (checkedTodo) => !this.selectedTodoItems.includes(checkedTodo.key)
+      );
+      console.log(filterTodo);
+      // this.todoItems = filterTodo;
+
+      // const storedTodos = JSON.parse(localStorage.getItem("todoList"));
+      // const remainingTodos = storedTodos.filter(
+      //   (todo) => !checkedTodo.includes(todo.key)
+      // );
+      // localStorage.setItem("todoList", JSON.stringify(remainingTodos));
+      // // 데이터 갱신
+      // this.todoItems = remainingTodos;
+    },
+    // 선택된 todo 아이템
+    selectedTodo(checkedTodo) {
+      this.selectedTodoItems = checkedTodo;
+      console.log(this.selectedTodoItems);
     },
   },
   created() {
