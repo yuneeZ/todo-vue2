@@ -1,7 +1,11 @@
 <template>
   <div class="btnBox">
-    <button type="button" class="btnDeleteSelected" v-on:click="clearSelected">
-      선택된 항목 삭제
+    <button
+      type="button"
+      class="btnDeleteSelected"
+      v-on:click="completeSelected"
+    >
+      작업 완료
     </button>
     <button type="button" class="btnDeleteAll" v-on:click="clearAll">
       전체 삭제
@@ -15,8 +19,8 @@ export default {
     clearAll() {
       this.$emit("clearAll");
     },
-    clearSelected() {
-      this.$emit("clearSelected");
+    completeSelected() {
+      this.$emit("completeSelected");
     },
   },
 };
@@ -24,7 +28,9 @@ export default {
 
 <style>
 .btnBox {
+  display: flex;
   margin-top: 30px;
+  justify-content: center;
 }
 .btnBox button {
   height: 35px;
@@ -35,9 +41,11 @@ export default {
   cursor: pointer;
 }
 .btnDeleteSelected {
+  margin: 0 -73px 0 auto;
   background: #d99b9b;
 }
 .btnDeleteAll {
+  margin-left: auto;
   background: #bd4141;
 }
 </style>

@@ -5,22 +5,37 @@
       v-bind:key="todoItem.key"
       class="todoList"
     >
-      <div class="checkBox">
-        <input
-          type="checkbox"
-          class="checkBoxInput"
-          v-bind:id="todoItem.key"
-          v-bind:value="todoItem.key"
-          v-model="checkedTodo"
-        />
-        <label class="checkBoxLabel" v-bind:for="todoItem.key">{{
-          todoItem.value
-        }}</label>
+      <div class="todoInputElements">
+        <div class="checkBox">
+          <input
+            type="checkbox"
+            class="checkBoxInput"
+            v-bind:id="todoItem.key"
+            v-bind:value="todoItem.key"
+            v-model="checkedTodo"
+          />
+          <label class="checkBoxLabel" v-bind:for="todoItem.key">
+            <span v-if="!isEdit">{{ todoItem.value }}</span>
+          </label>
+        </div>
+        <div v-if="isEdit" class="inputBox inputBox--edit">
+          <input
+            type="text"
+            v-model="todoItem.value"
+            v-on:keyup.enter="submitTodo"
+          />
+        </div>
       </div>
-      <button type="button" class="btnDelete" v-on:click="clearItem(index)">
-        <span class="blind">삭제</span>
-        <span class="iconDelete far fa-trash-alt"></span>
-      </button>
+      <div class="btnIconBox">
+        <button type="button" class="btnEdit" v-on:click="editTodo(index)">
+          <span class="blind">수정</span>
+          <span class="iconEdit far fa-edit"></span>
+        </button>
+        <button type="button" class="btnDelete" v-on:click="clearItem(index)">
+          <span class="blind">삭제</span>
+          <span class="iconDelete far fa-trash-alt"></span>
+        </button>
+      </div>
     </li>
   </transition-group>
 </template>
@@ -31,6 +46,8 @@ export default {
   data() {
     return {
       checkedTodo: [],
+      isEdit: false,
+      editTodoItem: "",
     };
   },
   methods: {
@@ -39,6 +56,16 @@ export default {
     },
     selectedTodo() {
       this.$emit("selectedTodo", this.checkedTodo);
+    },
+    editTodo() {
+      // this.$emit("editTodo", todoItem, index);
+      this.isEdit = true;
+      // this.$nextTick(() => {
+      // });
+    },
+    submitTodo() {
+      this.isEdit = false;
+      console.log(this.$refs.todoInput);
     },
   },
   watch: {
@@ -54,6 +81,7 @@ export default {
 
 <style>
 .todoList {
+  position: relative;
   display: flex;
   height: 40px;
   margin-top: 10px;
@@ -63,16 +91,6 @@ export default {
   text-align: left;
   align-items: center;
 }
-.iconCheck {
-  margin-right: 10px;
-  color: #8763fb;
-}
-.btnDelete {
-  width: 40px;
-  height: 40px;
-  margin-left: auto;
-  background: none;
-}
 .list-enter-active,
 .list-leave-active {
   transition: all 0.3s;
@@ -81,6 +99,26 @@ export default {
 .list-leave-to {
   opacity: 0;
   transform: translateY(-30px);
+}
+.iconCheck {
+  margin-right: 10px;
+  color: #8763fb;
+}
+.btnIconBox {
+  margin-left: auto;
+  padding: 0 10px;
+}
+.btnIconBox button {
+  width: 30px;
+  height: 40px;
+  background: none;
+}
+.btnIconBox .far {
+  color: #444;
+}
+.todoInputElements {
+  position: relative;
+  flex: 1;
 }
 .checkBox {
   position: relative;
@@ -97,6 +135,7 @@ export default {
 }
 .checkBoxLabel {
   display: block;
+  height: 40px;
   padding-left: 28px;
   line-height: 40px;
   user-select: none;
@@ -125,11 +164,29 @@ export default {
   border-width: 0 3px 3px 0;
   transform: rotate(45deg) scale(0.5);
 }
+.checkBoxInput:checked + .checkBoxLabel {
+  color: #aaa;
+  font-style: italic;
+  text-decoration: line-through;
+}
 .checkBoxInput:checked + .checkBoxLabel:before {
   background: #8763fb;
   border-color: #8763fb;
 }
 .checkBoxInput:checked + .checkBoxLabel:after {
   border-color: #fff;
+}
+.inputBox--edit {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  background: rgba(255, 0, 0, 0.1);
+}
+.inputBox--edit input {
+  width: 100%;
+  padding-left: 28px;
+  background: none;
 }
 </style>

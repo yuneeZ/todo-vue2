@@ -9,7 +9,7 @@
     ></TodoList>
     <TodoFooter
       v-on:clearAll="clearAll"
-      v-on:clearSelected="clearSelected"
+      v-on:completeSelected="completeSelected"
     ></TodoFooter>
   </div>
 </template>
@@ -31,6 +31,7 @@ export default {
     return {
       todoItems: [],
       selectedTodoItems: [],
+      completedItems: [],
     };
   },
   methods: {
@@ -63,28 +64,13 @@ export default {
       localStorage.removeItem("todoList");
       this.todoItems = [];
     },
-    // 선택된 todo 아이템 삭제
-    clearSelected(checkedTodo) {
-      // 선택한 데이터 todoItems에서 제거
-      const filterTodo = this.todoItems.filter(
-        (checkedTodo) => !this.selectedTodoItems.includes(checkedTodo.key)
-      );
-      console.log(filterTodo);
-      // this.todoItems = filterTodo;
-
-      // const storedTodos = JSON.parse(localStorage.getItem("todoList"));
-      // const remainingTodos = storedTodos.filter(
-      //   (todo) => !checkedTodo.includes(todo.key)
-      // );
-      // localStorage.setItem("todoList", JSON.stringify(remainingTodos));
-      // // 데이터 갱신
-      // this.todoItems = remainingTodos;
-    },
     // 선택된 todo 아이템
     selectedTodo(checkedTodo) {
       this.selectedTodoItems = checkedTodo;
       console.log(this.selectedTodoItems);
     },
+    // 완료 된 todo 아이템
+    completeSelected(checkedTodo) {},
   },
   created() {
     const getTodoList = localStorage.getItem("todoList");
