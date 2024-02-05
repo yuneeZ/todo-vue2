@@ -15,19 +15,28 @@
             v-model="checkedTodo"
           />
           <label class="checkBoxLabel" v-bind:for="todoItem.key">
-            <span v-if="!isEdit">{{ todoItem.value }}</span>
+            <span v-if="!isEdit || editingIndex !== index">{{
+              todoItem.value
+            }}</span>
           </label>
         </div>
-        <div v-if="isEdit" class="inputBox inputBox--edit">
+        <div
+          v-if="isEdit && editingIndex === index"
+          class="inputBox inputBox--edit"
+        >
           <input
             type="text"
-            v-model="todoItem.value"
+            v-model="editedValue"
             v-on:keyup.enter="submitTodo"
           />
         </div>
       </div>
       <div class="btnIconBox">
-        <button type="button" class="btnEdit" v-on:click="editTodo(index)">
+        <button
+          type="button"
+          class="btnEdit"
+          v-on:click="editTodo(todoItem, index)"
+        >
           <span class="blind">수정</span>
           <span class="iconEdit far fa-edit"></span>
         </button>
@@ -47,7 +56,8 @@ export default {
     return {
       checkedTodo: [],
       isEdit: false,
-      editTodoItem: "",
+      editingIndex: null,
+      editedValue: "",
     };
   },
   methods: {
@@ -57,15 +67,20 @@ export default {
     selectedTodo() {
       this.$emit("selectedTodo", this.checkedTodo);
     },
-    editTodo() {
-      // this.$emit("editTodo", todoItem, index);
+    editTodo(todoItem, index) {
       this.isEdit = true;
-      // this.$nextTick(() => {
-      // });
+      this.editingIndex = index;
+      this.editedValue = todoItem.value;
     },
     submitTodo() {
       this.isEdit = false;
-      console.log(this.$refs.todoInput);
+      // this.editingIndex = null;
+
+      if (this.editingIndex !== null) {
+        const editedItem = this.propsData[this.editingIndex];
+        editedItem.value = this.editedValue;
+        this.$emit("editTodo", editedItem);
+      }
     },
   },
   watch: {

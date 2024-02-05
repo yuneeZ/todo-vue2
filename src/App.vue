@@ -6,11 +6,9 @@
       v-bind:propsData="todoItems"
       v-on:clearItem="clearItem"
       v-on:selectedTodo="selectedTodo"
+      v-on:editTodo="editTodo"
     ></TodoList>
-    <TodoFooter
-      v-on:clearAll="clearAll"
-      v-on:completeSelected="completeSelected"
-    ></TodoFooter>
+    <TodoFooter v-on:clearAll="clearAll"></TodoFooter>
   </div>
 </template>
 
@@ -61,7 +59,8 @@ export default {
     },
     // todo 아이템 전체 삭제 - TodoFooter 컴포넌트에서 보낸 이벤트
     clearAll() {
-      localStorage.removeItem("todoList");
+      // localStorage.removeItem("todoList");
+      localStorage.clear();
       this.todoItems = [];
     },
     // 선택된 todo 아이템
@@ -69,8 +68,18 @@ export default {
       this.selectedTodoItems = checkedTodo;
       console.log(this.selectedTodoItems);
     },
-    // 완료 된 todo 아이템
-    completeSelected(checkedTodo) {},
+    // todo 아이템 수정
+    editTodo(editedItem) {
+      console.log(editedItem.value);
+      const index = this.todoItems.findIndex(
+        (item) => item.key === editedItem.key
+      );
+
+      if (index !== -1) {
+        this.todoItems[index] = editedItem;
+        localStorage.setItem("todoList", JSON.stringify(this.todoItems));
+      }
+    },
   },
   created() {
     const getTodoList = localStorage.getItem("todoList");
