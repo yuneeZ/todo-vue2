@@ -21,13 +21,15 @@
           </label>
         </div>
         <div
-          v-if="isEdit && editingIndex === index"
+          v-show="isEdit && editingIndex === index"
           class="inputBox inputBox--edit"
         >
           <input
             type="text"
             v-model="editedValue"
             v-on:keyup.enter="submitTodo"
+            v-bind:id="'editInput_' + index"
+            v-bind:ref="'editInput_' + index"
           />
         </div>
       </div>
@@ -69,12 +71,17 @@ export default {
     },
     editTodo(todoItem, index) {
       this.isEdit = true;
+      // todo:: 포커스 왜 안되는지 더 보기
+      // this.$nextTick(() => {
+      //   const inputRef = this.$refs["editInput_" + index];
+      //   console.log(inputRef);
+      //   inputRef.focus();
+      // });
       this.editingIndex = index;
       this.editedValue = todoItem.value;
     },
     submitTodo() {
       this.isEdit = false;
-      // this.editingIndex = null;
 
       if (this.editingIndex !== null) {
         const editedItem = this.propsData[this.editingIndex];

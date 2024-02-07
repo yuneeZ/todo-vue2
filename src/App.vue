@@ -70,7 +70,6 @@ export default {
     },
     // todo 아이템 수정
     editTodo(editedItem) {
-      console.log(editedItem.value);
       const index = this.todoItems.findIndex(
         (item) => item.key === editedItem.key
       );
