@@ -12,7 +12,7 @@
             class="checkBoxInput"
             v-bind:id="todoItem.key"
             v-bind:value="todoItem.key"
-            v-model="checkedTodo"
+            v-model="checkedTodo[index]"
           />
           <label class="checkBoxLabel" v-bind:for="todoItem.key">
             <span v-if="!isEdit || editingIndex !== index">{{
@@ -38,6 +38,7 @@
           type="button"
           class="btnEdit"
           v-on:click="editTodo(todoItem, index)"
+          v-bind:disabled="checkedTodo[index]"
         >
           <span class="blind">수정</span>
           <span class="iconEdit far fa-edit"></span>
@@ -137,6 +138,9 @@ export default {
 }
 .btnIconBox .far {
   color: #444;
+}
+.btnIconBox .btnEdit[disabled] .far {
+  color: #999;
 }
 .todoInputElements {
   position: relative;

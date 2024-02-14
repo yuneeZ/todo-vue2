@@ -59,8 +59,8 @@ export default {
     },
     // todo 아이템 전체 삭제 - TodoFooter 컴포넌트에서 보낸 이벤트
     clearAll() {
-      // localStorage.removeItem("todoList");
-      localStorage.clear();
+      localStorage.removeItem("todoList");
+      // localStorage.clear();
       this.todoItems = [];
     },
     // 선택된 todo 아이템

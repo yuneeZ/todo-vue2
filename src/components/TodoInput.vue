@@ -86,6 +86,7 @@ export default {
   padding: 0 10px;
   background: #fff;
   border-radius: 5px 0 0 5px;
+  line-height: 40px;
   flex: 1;
 }
 .btnAdd {

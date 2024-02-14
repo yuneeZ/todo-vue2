@@ -29,7 +29,7 @@ export default {
 <style>
 .btnBox {
   display: flex;
-  margin-top: 30px;
+  padding: 30px 0;
   justify-content: center;
 }
 .btnBox button {
@@ -42,10 +42,10 @@ export default {
 }
 .btnDeleteSelected {
   margin: 0 -73px 0 auto;
-  background: #d99b9b;
+  background: #8763fb;
 }
 .btnDeleteAll {
   margin-left: auto;
-  background: #bd4141;
+  background: #999;
 }
 </style>
