@@ -30,8 +30,7 @@
             v-model="editedValue"
             v-on:keyup.enter="submitTodo"
             v-bind:id="'editInput_' + index"
-            v-bind:ref="'editInput_' + index"
-            ref="test"
+            v-bind:ref="getInputRef(index)"
           />
         </div>
       </div>
@@ -62,6 +61,7 @@ export default {
       isEdit: false,
       editingIndex: null,
       editedValue: "",
+      editedInputs: [],
     };
   },
   methods: {
@@ -70,14 +70,11 @@ export default {
     },
     editTodo(todoItem, index) {
       this.isEdit = true;
-      // todo:: 포커스 왜 안되는지 더 보기
-      this.$nextTick(() => {
-        const inputRef = this.$refs.test;
-        console.log(inputRef);
-        inputRef.focus();
-      });
       this.editingIndex = index;
       this.editedValue = todoItem.value;
+      this.$nextTick(() => {
+        this.editedInputs[index].focus();
+      });
     },
     submitTodo() {
       this.isEdit = false;
@@ -90,6 +87,12 @@ export default {
     },
     checkedTodo() {
       this.$emit("selectedTodo");
+    },
+    getInputRef(index) {
+      return (ref) => {
+        // 배열에 입력 요소에 대한 참조 저장
+        this.$set(this.editedInputs, index, ref);
+      };
     },
   },
 };
@@ -201,7 +204,7 @@ export default {
   top: 0;
   right: 0;
   left: 0;
-  background: rgba(255, 0, 0, 0.1);
+  /* background: rgba(255, 0, 0, 0.1); */
 }
 .inputBox--edit input {
   width: 100%;
