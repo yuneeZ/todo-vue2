@@ -12,7 +12,8 @@
             class="checkBoxInput"
             v-bind:id="todoItem.key"
             v-bind:value="todoItem.key"
-            v-model="checkedTodo[index]"
+            v-model="todoItem.complete"
+            v-on:change="checkedTodo"
           />
           <label class="checkBoxLabel" v-bind:for="todoItem.key">
             <span v-if="!isEdit || editingIndex !== index">{{
@@ -38,12 +39,16 @@
           type="button"
           class="btnEdit"
           v-on:click="editTodo(todoItem, index)"
-          v-bind:disabled="checkedTodo[index]"
+          v-bind:disabled="todoItem.complete"
         >
           <span class="blind">수정</span>
           <span class="iconEdit far fa-edit"></span>
         </button>
-        <button type="button" class="btnDelete" v-on:click="clearItem(index)">
+        <button
+          type="button"
+          class="btnDelete"
+          v-on:click="clearItem(todoItem, index)"
+        >
           <span class="blind">삭제</span>
           <span class="iconDelete far fa-trash-alt"></span>
         </button>
@@ -57,7 +62,6 @@ export default {
   props: ["propsData"],
   data() {
     return {
-      checkedTodo: [],
       isEdit: false,
       editingIndex: null,
       editedValue: "",
@@ -67,27 +71,8 @@ export default {
     clearItem(todoItem, index) {
       this.$emit("clearItem", todoItem, index);
     },
-    selectedTodo() {
-      const selectedItems = this.propsData.map((todoItem, index) => {
-        if (this.checkedTodo[index]) {
-          todoItem.complete = true;
-        } else {
-          todoItem.complete = false;
-        }
-        return todoItem;
-      });
-      this.$emit("selectedTodo", selectedItems);
-
-      localStorage.setItem("todoList", JSON.stringify(this.propsData));
-    },
     editTodo(todoItem, index) {
       this.isEdit = true;
-      // todo:: 포커스 왜 안되는지 더 보기
-      // this.$nextTick(() => {
-      //   const inputRef = this.$refs["editInput_" + index];
-      //   console.log(inputRef);
-      //   inputRef.focus();
-      // });
       this.editingIndex = index;
       this.editedValue = todoItem.value;
     },
@@ -100,20 +85,8 @@ export default {
         this.$emit("editTodo", editedItem);
       }
     },
-  },
-  created() {
-    const storedData = JSON.parse(localStorage.getItem("todoList"));
-    if (storedData && storedData.length > 0) {
-      // 로컬 스토리지에서 가져온 데이터로 checkedTodo 배열 초기화
-      this.checkedTodo = storedData.map((todoItem) => todoItem.complete);
-    }
-  },
-  watch: {
-    checkedTodo: {
-      handler() {
-        this.selectedTodo();
-      },
-      deep: true,
+    checkedTodo() {
+      this.$emit("selectedTodo");
     },
   },
 };

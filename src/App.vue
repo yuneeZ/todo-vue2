@@ -32,7 +32,6 @@ export default {
     return {
       todoItems: [],
       selectedTodoItems: [],
-      completedItems: [],
     };
   },
   methods: {
@@ -67,39 +66,34 @@ export default {
       this.todoItems = [];
       this.selectedTodoItems = [];
     },
-    // 선택된 todo 아이템
-    selectedTodo() {
-      // this.selectedTodoItems = checkedTodo;
-
-      // 체크박스 상태가 변경될 때마다 selectedTodo 메서드가 호출됩니다.
-      // 이 메서드에서는 로컬 스토리지의 데이터를 직접 변경하지 않고, selectedTodoItems 배열을 업데이트합니다.
-      this.selectedTodoItems = this.todoItems.filter((todo) => todo.complete);
-    },
     // todo 아이템 수정
     editTodo(editedItem) {
-      console.log(editedItem);
       const index = this.todoItems.findIndex(
         (item) => item.key === editedItem.key
       );
-
       if (index !== -1) {
         this.todoItems[index] = editedItem;
         localStorage.setItem("todoList", JSON.stringify(this.todoItems));
       }
     },
+    // 체크박스 상태가 변경될 때마다 selectedTodo 메서드 호출
+    selectedTodo() {
+      // selectedTodoItems 배열을 업데이트
+      this.selectedTodoItems = this.todoItems.filter((todo) => todo.complete);
+      localStorage.setItem("todoList", JSON.stringify(this.todoItems));
+    },
     completeSelected() {
-      console.log(this.selectedTodoItems);
-      // 선택된 항목들의 complete 값을 true로 변경합니다.
-      // this.selectedTodoItems.forEach((item) => (item.complete = true));
-      // localStorage.setItem("todoList", JSON.stringify(this.todoItems));
+      // 선택된 항목들을 배열의 마지막으로 이동
+      this.todoItems = this.todoItems.filter((item) => !item.complete);
+      this.todoItems.push(...this.selectedTodoItems);
+
+      localStorage.setItem("todoList", JSON.stringify(this.todoItems));
     },
   },
   created() {
-    const getTodoList = localStorage.getItem("todoList");
-    const getTodoItem = JSON.parse(getTodoList);
-
-    if (getTodoItem && getTodoItem.length > 0) {
-      this.todoItems = getTodoItem;
+    const storedData = JSON.parse(localStorage.getItem("todoList"));
+    if (storedData && storedData.length > 0) {
+      this.todoItems = storedData;
       this.selectedTodo();
     }
   },
