@@ -44,11 +44,7 @@
           <span class="blind">수정</span>
           <span class="iconEdit far fa-edit"></span>
         </button>
-        <button
-          type="button"
-          class="btnDelete"
-          v-on:click="clearItem(todoItem, index)"
-        >
+        <button type="button" class="btnDelete" v-on:click="clearItem(index)">
           <span class="blind">삭제</span>
           <span class="iconDelete far fa-trash-alt"></span>
         </button>
