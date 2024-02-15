@@ -6,22 +6,20 @@
         placeholder="Type what you have to do"
         ref="todoInput"
         v-model="newTodoItem"
-        v-on:keyup.enter="addTodo"
+        v-on:keypress.enter="addTodo"
       />
       <button type="button" class="btnAdd" v-on:click="addTodo">
         <span class="btnAddIcon fas fa-plus"></span>
         <span class="blind">추가</span>
       </button>
     </div>
-    <modal v-if="showModal" v-on:close="handleCloseModal">
+    <modal v-if="showModal" v-on:click="handleCloseModal">
       <h3 slot="header">알림</h3>
       <div slot="body">
         <p>할 일을 입력해주세요</p>
         <button
           type="button"
           ref="modalCloseButton"
-          v-on:blur="handleCloseModal"
-          v-on:keyup.enter="$event.target.blur()"
           v-on:click="handleCloseModal"
           class="btnClose"
         >
@@ -48,19 +46,12 @@ export default {
       if (trimmedValue) {
         this.$emit("addTodo", trimmedValue);
       } else {
-        this.$refs.todoInput.blur();
-        this.handleOpenModal();
+        this.showModal = !this.showModal;
       }
       this.clearInput();
     },
     clearInput() {
       this.newTodoItem = "";
-    },
-    handleOpenModal() {
-      this.showModal = true;
-      this.$nextTick(() => {
-        this.$refs.modalCloseButton.focus();
-      });
     },
     handleCloseModal() {
       this.showModal = false;
@@ -74,6 +65,11 @@ export default {
   },
   mounted() {
     this.$refs.todoInput.focus();
+  },
+  watch: {
+    showModal: function () {
+      this.$refs.todoInput.focus();
+    },
   },
 };
 </script>
