@@ -31,6 +31,7 @@
             v-on:keyup.enter="submitTodo"
             v-bind:id="'editInput_' + index"
             v-bind:ref="'editInput_' + index"
+            ref="test"
           />
         </div>
       </div>
@@ -69,6 +70,12 @@ export default {
     },
     editTodo(todoItem, index) {
       this.isEdit = true;
+      // todo:: 포커스 왜 안되는지 더 보기
+      this.$nextTick(() => {
+        const inputRef = this.$refs.test;
+        console.log(inputRef);
+        inputRef.focus();
+      });
       this.editingIndex = index;
       this.editedValue = todoItem.value;
     },

@@ -22,6 +22,7 @@
           ref="modalCloseButton"
           v-on:blur="handleCloseModal"
           v-on:keyup.enter="$event.target.blur()"
+          v-on:click="handleCloseModal"
           class="btnClose"
         >
           <span class="blind">닫기</span>
