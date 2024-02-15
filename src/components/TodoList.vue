@@ -68,7 +68,17 @@ export default {
       this.$emit("clearItem", todoItem, index);
     },
     selectedTodo() {
-      this.$emit("selectedTodo", this.checkedTodo);
+      const selectedItems = this.propsData.map((todoItem, index) => {
+        if (this.checkedTodo[index]) {
+          todoItem.complete = true;
+        } else {
+          todoItem.complete = false;
+        }
+        return todoItem;
+      });
+      this.$emit("selectedTodo", selectedItems);
+
+      localStorage.setItem("todoList", JSON.stringify(this.propsData));
     },
     editTodo(todoItem, index) {
       this.isEdit = true;
@@ -90,6 +100,13 @@ export default {
         this.$emit("editTodo", editedItem);
       }
     },
+  },
+  created() {
+    const storedData = JSON.parse(localStorage.getItem("todoList"));
+    if (storedData && storedData.length > 0) {
+      // 로컬 스토리지에서 가져온 데이터로 checkedTodo 배열 초기화
+      this.checkedTodo = storedData.map((todoItem) => todoItem.complete);
+    }
   },
   watch: {
     checkedTodo: {

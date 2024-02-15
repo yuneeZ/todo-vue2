@@ -50,6 +50,7 @@ export default {
       this.todoItems.push({
         key: [now, this.todoItems.length].join("_"),
         value: todoItem,
+        complete: false,
       });
 
       // TodoInput 컴포넌트에서 올려 보낸 값을 로컬 스토리지에 배열로 추가
@@ -64,13 +65,19 @@ export default {
     clearAll() {
       localStorage.removeItem("todoList");
       this.todoItems = [];
+      this.selectedTodoItems = [];
     },
     // 선택된 todo 아이템
-    selectedTodo(checkedTodo) {
-      this.selectedTodoItems = checkedTodo;
+    selectedTodo() {
+      // this.selectedTodoItems = checkedTodo;
+
+      // 체크박스 상태가 변경될 때마다 selectedTodo 메서드가 호출됩니다.
+      // 이 메서드에서는 로컬 스토리지의 데이터를 직접 변경하지 않고, selectedTodoItems 배열을 업데이트합니다.
+      this.selectedTodoItems = this.todoItems.filter((todo) => todo.complete);
     },
     // todo 아이템 수정
     editTodo(editedItem) {
+      console.log(editedItem);
       const index = this.todoItems.findIndex(
         (item) => item.key === editedItem.key
       );
@@ -80,14 +87,20 @@ export default {
         localStorage.setItem("todoList", JSON.stringify(this.todoItems));
       }
     },
-    completeSelected() {},
+    completeSelected() {
+      console.log(this.selectedTodoItems);
+      // 선택된 항목들의 complete 값을 true로 변경합니다.
+      // this.selectedTodoItems.forEach((item) => (item.complete = true));
+      // localStorage.setItem("todoList", JSON.stringify(this.todoItems));
+    },
   },
   created() {
     const getTodoList = localStorage.getItem("todoList");
     const getTodoItem = JSON.parse(getTodoList);
 
-    if (getTodoItem.length > 0) {
+    if (getTodoItem && getTodoItem.length > 0) {
       this.todoItems = getTodoItem;
+      this.selectedTodo();
     }
   },
 };
